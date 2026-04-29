@@ -1,0 +1,620 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+.page {
+  font-family: 'Jost', sans-serif;
+  background: #FAF8F4;
+  min-height: 100vh;
+  padding: 0 0 80px;
+}
+
+.header {
+  background: #2C1A08;
+  padding: 18px 32px;
+  text-align: center;
+}
+.header-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: #E8D9BC;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+.header-text span {
+  color: #C4A55A;
+  margin: 0 10px;
+  font-style: normal;
+  font-size: 0.7rem;
+  vertical-align: middle;
+}
+
+.body {
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 48px 24px 0;
+}
+
+.preamble {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: #5A3A1A;
+  line-height: 1.85;
+  margin-bottom: 10px;
+}
+
+.note {
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: #8B6940;
+  line-height: 1.7;
+  margin-bottom: 36px;
+  padding-left: 12px;
+  border-left: 2px solid #C4A55A;
+}
+
+.divider {
+  height: 0.5px;
+  background: #DDD0B8;
+  margin: 32px 0;
+}
+
+/* Fields */
+.field { margin-bottom: 24px; }
+
+label {
+  display: block;
+  font-size: 0.67rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8B6940;
+  margin-bottom: 6px;
+}
+label .num { color: #C4A55A; margin-right: 4px; }
+label .req { color: #9B2020; margin-left: 1px; }
+
+input[type="text"],
+input[type="date"],
+input[type="time"],
+select,
+textarea {
+  width: 100%;
+  padding: 9px 0;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 300;
+  color: #2C1A08;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #C4A55A;
+  border-radius: 0;
+  outline: none;
+  transition: border-color 0.2s;
+  appearance: none;
+}
+input::placeholder, textarea::placeholder {
+  color: #C4A55A;
+  font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem;
+}
+input:focus, select:focus, textarea:focus { border-bottom-color: #2C1A08; }
+
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23C4A55A' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 2px center;
+  padding-right: 22px;
+  cursor: pointer;
+}
+
+textarea {
+  resize: none;
+  min-height: 64px;
+  border: 1px solid #DDD0B8;
+  padding: 10px 12px;
+  background: #fff;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.86rem;
+}
+textarea:focus { border-color: #2C1A08; }
+
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+.field-err { font-size: 0.68rem; color: #9B2020; font-style: italic; margin-top: 4px; display: none; }
+.field.invalid input, .field.invalid select, .field.invalid textarea { border-color: #9B2020; }
+.field.invalid .field-err { display: block; }
+
+/* ID Tabs */
+.id-block { margin-bottom: 24px; }
+.id-block > label { display: block; font-size: 0.67rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: #8B6940; margin-bottom: 10px; }
+
+.id-tabs { display: flex; gap: 20px; margin-bottom: 16px; border-bottom: 1px solid #DDD0B8; }
+.id-tab {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: #B5996A;
+  padding: 0 0 8px;
+  background: none; border: none;
+  border-bottom: 1.5px solid transparent;
+  cursor: pointer;
+  transition: color 0.18s, border-color 0.18s;
+  text-transform: uppercase;
+}
+.id-tab:hover { color: #2C1A08; }
+.id-tab.active { color: #2C1A08; border-bottom-color: #2C1A08; }
+
+.id-panel { display: none; }
+.id-panel.active { display: block; animation: fd 0.2s ease; }
+@keyframes fd { from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);} }
+
+.upload-zone {
+  border: 1px dashed #C4A55A;
+  padding: 20px 16px;
+  text-align: center;
+  cursor: pointer;
+  background: #fff;
+  transition: background 0.2s, border-color 0.2s;
+  margin-top: 10px;
+}
+.upload-zone:hover, .upload-zone.filled { background: #FAF5E8; border-color: #8B6940; }
+.uz-icon { margin: 0 auto 8px; display: block; }
+.uz-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #8B6940;
+  line-height: 1.6;
+}
+.uz-text small { display: block; font-size: 0.72rem; color: #B5996A; font-style: normal; font-family: 'Jost', sans-serif; margin-top: 2px; font-weight: 300; }
+
+.file-chip {
+  display: none; align-items: center; gap: 8px;
+  margin-top: 8px; padding: 8px 12px;
+  background: #FAF5E8; border: 1px solid #DDD0B8;
+  font-size: 0.8rem; color: #2C1A08;
+}
+.file-chip.show { display: flex; }
+.chip-name { flex:1; font-style: italic; font-family: 'Cormorant Garamond', serif; word-break: break-all; }
+.chip-rm { background: none; border: none; font-size: 0.68rem; color: #9B2020; cursor: pointer; text-decoration: underline; font-family: 'Jost', sans-serif; padding: 0; }
+
+.sep-note {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #5A3A1A;
+  line-height: 1.8;
+  padding: 12px 0 4px;
+  border-top: 1px solid #DDD0B8;
+}
+
+/* Yes/No */
+.yn { display: flex; gap: 12px; }
+.yn-opt {
+  flex: 1; text-align: center;
+  border: 1px solid #DDD0B8;
+  padding: 8px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #8B6940;
+  cursor: pointer;
+  transition: all 0.18s;
+  user-select: none;
+  background: #fff;
+}
+.yn-opt:hover { border-color: #C4A55A; color: #2C1A08; }
+.yn-opt.sel { border-color: #2C1A08; color: #2C1A08; background: #FAF8F4; }
+
+.yn-err { font-size: 0.68rem; color: #9B2020; font-style: italic; margin-top: 4px; display: none; }
+.yn-err.show { display: block; }
+
+.cond { display: none; }
+.cond.show { display: block; animation: fd 0.2s ease; }
+.cond-row { display: none; }
+.cond-row.show { display: grid; animation: fd 0.2s ease; }
+
+/* Submit */
+.submit-btn {
+  width: 100%;
+  padding: 13px;
+  background: #2C1A08;
+  color: #FAF5E8;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 10px;
+}
+.submit-btn:hover { background: #8B3A14; }
+.submit-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.submit-err { font-size: 0.72rem; color: #9B2020; font-style: italic; text-align: center; margin-top: 8px; display: none; }
+
+/* Setup */
+.setup-wrap {
+  margin: 0 24px 0;
+  max-width: 540px;
+  margin-left: auto; margin-right: auto;
+  background: #FFF8E8;
+  border-left: 2px solid #C4A55A;
+  padding: 14px 18px;
+  margin-top: 24px;
+  font-size: 0.79rem;
+  color: #5A3A1A;
+  line-height: 1.7;
+}
+.setup-wrap strong { font-weight: 500; color: #2C1A08; display: block; margin-bottom: 4px; }
+.setup-row { display: flex; gap: 8px; margin-top: 8px; }
+.setup-row input { flex:1; border-bottom: 1px solid #C4A55A; padding: 5px 0; font-size: 0.76rem; }
+.setup-row button { background: #2C1A08; color: #FAF5E8; border: none; padding: 5px 14px; font-family: 'Jost', sans-serif; font-size: 0.7rem; letter-spacing: 0.1em; cursor: pointer; }
+a.sub { color: #8B3A14; text-decoration: underline; cursor: pointer; }
+
+.guide-wrap {
+  max-width: 540px; margin: 8px auto 0;
+  padding: 0 24px;
+}
+.guide-box {
+  display: none;
+  background: #F5F0E8; border: 1px solid #DDD0B8;
+  padding: 14px 16px;
+  font-size: 0.78rem; color: #2C1A08; line-height: 1.8;
+}
+.guide-box pre { background: #E8E0D0; padding: 10px; margin-top: 8px; font-family: monospace; font-size: 0.7rem; white-space: pre-wrap; user-select: all; }
+
+/* Success */
+.success { display: none; text-align: center; padding: 48px 24px; }
+.success.show { display: block; }
+.success-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.8rem; color: #2C1A08; margin-bottom: 12px; }
+.success-msg { font-size: 0.84rem; font-weight: 300; color: #8B6940; line-height: 1.8; }
+.form-body.hidden { display: none; }
+
+.spinner { display: inline-block; width: 12px; height: 12px; border: 1.5px solid rgba(255,245,232,0.3); border-top-color: #FAF5E8; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 5px; }
+@keyframes spin { to{transform:rotate(360deg);} }
+</style>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-text">
+      Bhairav &amp; Khushi
+      <span>·</span>
+      Mirasol Resort, Daman
+      <span>·</span>
+      7th &amp; 8th May 2026
+    </div>
+  </div>
+
+  <!-- Setup -->
+  <div class="setup-wrap" id="setupBanner" style="display:none;">
+    <strong>Connect to Google Sheets</strong>
+    Paste your Google Apps Script Web App URL below.
+    <a class="sub" onclick="toggleGuide()">How to set this up</a>
+    <div class="setup-row">
+      <input type="text" id="sheetUrl" placeholder="https://script.google.com/macros/s/…/exec" />
+      <button onclick="saveUrl()">Save</button>
+    </div>
+  </div>
+
+  <div class="guide-wrap">
+    <div class="guide-box" id="guideBox">
+      1. Create a new Google Sheet<br>
+      2. Extensions → Apps Script → paste script → Save<br>
+      3. Deploy → New deployment → Web app → Execute as: Me · Access: Anyone<br>
+      4. Copy the Web App URL and paste above<br>
+      <pre>function doPost(e) {
+  var s = SpreadsheetApp.getActiveSheet();
+  if (s.getLastRow()===0) s.appendRow(['Timestamp','Full Name','ID Type','ID Via',
+    'Transport','Train/Flight No','Date of Arrival','Time of Arrival',
+    'Pickup Needed','Pickup Point','Logistics Support']);
+  var d = JSON.parse(e.postData.contents);
+  s.appendRow([new Date(),d.fullName,d.idType,d.idVia,d.transport,
+    d.flightTrain,d.arrDate,d.arrTime,d.pickup,d.pickupPoint,d.support]);
+  return ContentService.createTextOutput(JSON.stringify({status:'ok'}))
+    .setMimeType(ContentService.MimeType.JSON);
+}</pre>
+      <a class="sub" onclick="toggleGuide()">Hide</a>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="form-body" id="formBody">
+
+      <p class="preamble">We're so excited to have you with us for the celebrations ✨<br>Please fill this in and send it back.</p>
+      <p class="note">Train arrivals → pick-up from Vapi Station &nbsp;·&nbsp; Flying into Surat → let us know for pick-up coordination</p>
+
+      <div class="divider"></div>
+
+      <!-- 1. Full Name -->
+      <div class="field" id="f-name">
+        <label><span class="num">1.</span> Full name as per ID <span class="req">*</span></label>
+        <input type="text" id="fullName" placeholder="As it appears on your government ID" />
+        <div class="field-err">Please enter your full name</div>
+      </div>
+
+      <!-- 2. Govt Photo ID -->
+      <div class="id-block">
+        <label><span class="num">2.</span> Govt photo ID <span class="req">*</span></label>
+        <div class="id-tabs">
+          <button class="id-tab active" onclick="switchTab('upload')">Upload now</button>
+          <button class="id-tab" onclick="switchTab('separate')">Send separately</button>
+        </div>
+
+        <div class="id-panel active" id="panel-upload">
+          <div class="field" id="f-idType" style="margin-bottom:12px;">
+            <label>ID type</label>
+            <select id="idType">
+              <option value="">— Select —</option>
+              <option>Aadhaar Card</option><option>PAN Card</option>
+              <option>Passport</option><option>Voter ID</option>
+              <option>Driving Licence</option>
+            </select>
+            <div class="field-err">Please select ID type</div>
+          </div>
+          <div class="upload-zone" id="uploadZone" onclick="document.getElementById('idFile').click()">
+            <svg class="uz-icon" width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <rect x="4" y="3" width="20" height="22" rx="2" stroke="#C4A55A" stroke-width="1.2"/>
+              <path d="M14 19 V11" stroke="#C4A55A" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M10 15 L14 11 L18 15" stroke="#C4A55A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 23 L19 23" stroke="#C4A55A" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+            <div class="uz-text">
+              Click to upload your photo ID
+              <small>JPG, PNG or PDF · Max 10 MB</small>
+            </div>
+            <input type="file" id="idFile" accept=".jpg,.jpeg,.png,.pdf" style="display:none;" onchange="handleFile(this)"/>
+          </div>
+          <div class="file-chip" id="fileChip">
+            <span id="fileIcon">📄</span>
+            <span class="chip-name" id="fileName"></span>
+            <button class="chip-rm" onclick="removeFile()">Remove</button>
+          </div>
+        </div>
+
+        <div class="id-panel" id="panel-separate">
+          <div class="field" id="f-idTypeSep" style="margin-bottom:12px;">
+            <label>ID type</label>
+            <select id="idTypeSep">
+              <option value="">— Select —</option>
+              <option>Aadhaar Card</option><option>PAN Card</option>
+              <option>Passport</option><option>Voter ID</option>
+              <option>Driving Licence</option>
+            </select>
+            <div class="field-err">Please select ID type</div>
+          </div>
+          <div class="sep-note">
+            Please send a soft copy of your ID on WhatsApp or email after submitting — do mention your full name. We'll confirm the contact details once you submit.
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Mode of travel -->
+      <div class="field" id="f-transport">
+        <label><span class="num">3.</span> Mode of travel <span class="req">*</span></label>
+        <select id="transport" onchange="handleTransport()">
+          <option value="">— Select —</option>
+          <option value="car">Car</option>
+          <option value="train">Train</option>
+          <option value="flight">Flight</option>
+          <option value="other">Other</option>
+        </select>
+        <div class="field-err">Please select your mode of travel</div>
+      </div>
+
+      <!-- 4. Train/Flight no -->
+      <div class="cond field" id="f-tf">
+        <label id="tfLabel"><span class="num">4.</span> Train / Flight no. <span class="req">*</span></label>
+        <input type="text" id="tfNo" placeholder="" />
+        <div class="field-err">Please enter the number</div>
+      </div>
+
+      <!-- 5 & 6. Date & Time -->
+      <div class="row">
+        <div class="field" id="f-date">
+          <label><span class="num">5.</span> Date of arrival <span class="req">*</span></label>
+          <input type="date" id="arrDate" />
+          <div class="field-err">Required</div>
+        </div>
+        <div class="field" id="f-time">
+          <label><span class="num">6.</span> Time of arrival <span class="req">*</span></label>
+          <input type="time" id="arrTime" />
+          <div class="field-err">Required</div>
+        </div>
+      </div>
+
+      <!-- 7. Pickup needed -->
+      <div class="field" id="f-pickup">
+        <label><span class="num">7.</span> Pick-up needed? <span class="req">*</span></label>
+        <div class="yn">
+          <div class="yn-opt" id="yn-yes" onclick="setPickup('yes')">Yes</div>
+          <div class="yn-opt" id="yn-no" onclick="setPickup('no')">No</div>
+        </div>
+        <div class="yn-err" id="pErr">Please select an option</div>
+      </div>
+
+      <!-- 8. Pickup point -->
+      <div class="cond field" id="f-pp">
+        <label><span class="num">8.</span> Pick-up point <span class="req">*</span></label>
+        <select id="pickupPoint">
+          <option value="">— Select —</option>
+          <option value="Vapi Station">Vapi Station</option>
+          <option value="Surat Airport">Surat Airport</option>
+          <option value="Other">Other (mention below)</option>
+        </select>
+        <div class="field-err">Please select your pick-up point</div>
+      </div>
+
+      <!-- 9. Logistics -->
+      <div class="field">
+        <label><span class="num">9.</span> Any logistics support needed?</label>
+        <textarea id="support" placeholder="Travel help, accessibility needs, anything at all…"></textarea>
+      </div>
+
+      <div class="submit-err" id="submitErr"></div>
+      <button class="submit-btn" id="submitBtn" onclick="submitForm()">Confirm my details</button>
+
+    </div>
+
+    <!-- Success -->
+    <div class="success" id="successState">
+      <div class="success-title">Thank you ❤️</div>
+      <p class="success-msg">Your details have been received.<br>Can't wait to celebrate together.</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+var SKEY='wb_kb4';
+var activeTab='upload';
+var pickupVal='';
+var uploadedFile=null;
+
+function init(){
+  var s=localStorage.getItem(SKEY);
+  if(!s) document.getElementById('setupBanner').style.display='block';
+  else document.getElementById('sheetUrl').value=s;
+}
+
+function saveUrl(){
+  var u=document.getElementById('sheetUrl').value.trim();
+  if(!u.startsWith('https://script.google.com')){alert('Please enter a valid Apps Script URL');return;}
+  localStorage.setItem(SKEY,u);
+  document.getElementById('setupBanner').style.display='none';
+}
+
+function toggleGuide(){
+  var g=document.getElementById('guideBox');
+  g.style.display=g.style.display==='none'?'block':'none';
+}
+
+function switchTab(t){
+  activeTab=t;
+  document.querySelectorAll('.id-tab').forEach(function(el,i){
+    el.classList.toggle('active',(i===0&&t==='upload')||(i===1&&t==='separate'));
+  });
+  document.getElementById('panel-upload').classList.toggle('active',t==='upload');
+  document.getElementById('panel-separate').classList.toggle('active',t==='separate');
+}
+
+function handleFile(inp){
+  var f=inp.files[0];
+  if(!f)return;
+  if(f.size>10*1024*1024){alert('File must be under 10 MB');return;}
+  uploadedFile=f;
+  document.getElementById('uploadZone').classList.add('filled');
+  document.getElementById('fileName').textContent=f.name;
+  document.getElementById('fileIcon').textContent=f.type==='application/pdf'?'📄':'🖼';
+  document.getElementById('fileChip').classList.add('show');
+}
+
+function removeFile(){
+  uploadedFile=null;
+  document.getElementById('idFile').value='';
+  document.getElementById('uploadZone').classList.remove('filled');
+  document.getElementById('fileChip').classList.remove('show');
+}
+
+function handleTransport(){
+  var v=document.getElementById('transport').value;
+  var el=document.getElementById('f-tf');
+  var lbl=document.getElementById('tfLabel');
+  var inp=document.getElementById('tfNo');
+  if(v==='train'){
+    el.classList.add('show');
+    lbl.innerHTML='<span class="num">4.</span> Train number / name <span class="req">*</span>';
+    inp.placeholder='e.g. 12009 Shatabdi Express';
+  } else if(v==='flight'){
+    el.classList.add('show');
+    lbl.innerHTML='<span class="num">4.</span> Flight number <span class="req">*</span>';
+    inp.placeholder='e.g. 6E 456';
+  } else {
+    el.classList.remove('show');
+  }
+}
+
+function setPickup(v){
+  pickupVal=v;
+  document.getElementById('yn-yes').classList.toggle('sel',v==='yes');
+  document.getElementById('yn-no').classList.toggle('sel',v==='no');
+  document.getElementById('pErr').classList.remove('show');
+  document.getElementById('f-pickup').classList.remove('invalid');
+  document.getElementById('f-pp').classList.toggle('show',v==='yes');
+}
+
+function inv(id,bad){
+  var f=document.getElementById(id);
+  if(bad)f.classList.add('invalid');else f.classList.remove('invalid');
+  return bad;
+}
+
+function validate(){
+  var ok=true;
+  if(!document.getElementById('fullName').value.trim()){inv('f-name',true);ok=false;}else inv('f-name',false);
+  if(!document.getElementById('transport').value){inv('f-transport',true);ok=false;}else inv('f-transport',false);
+  var t=document.getElementById('transport').value;
+  if((t==='train'||t==='flight')&&!document.getElementById('tfNo').value.trim()){inv('f-tf',true);ok=false;}else inv('f-tf',false);
+  if(!document.getElementById('arrDate').value){inv('f-date',true);ok=false;}else inv('f-date',false);
+  if(!document.getElementById('arrTime').value){inv('f-time',true);ok=false;}else inv('f-time',false);
+  if(!pickupVal){document.getElementById('pErr').classList.add('show');document.getElementById('f-pickup').classList.add('invalid');ok=false;}
+  if(pickupVal==='yes'&&!document.getElementById('pickupPoint').value){inv('f-pp',true);ok=false;}else inv('f-pp',false);
+  return ok;
+}
+
+async function submitForm(){
+  if(!validate())return;
+  var url=localStorage.getItem(SKEY)||document.getElementById('sheetUrl').value.trim();
+  var btn=document.getElementById('submitBtn');
+  var err=document.getElementById('submitErr');
+  btn.disabled=true;
+  btn.innerHTML='<span class="spinner"></span>Sending…';
+  err.style.display='none';
+
+  if(!url||!url.startsWith('https://script.google.com')){
+    document.getElementById('setupBanner').style.display='block';
+    btn.disabled=false;btn.innerHTML='Confirm my details';
+    err.style.display='block';err.textContent='Please add your Google Sheets URL above first.';
+    return;
+  }
+
+  var idType=activeTab==='upload'
+    ?document.getElementById('idType').value
+    :document.getElementById('idTypeSep').value;
+
+  var payload={
+    fullName:document.getElementById('fullName').value.trim(),
+    idType:idType||'—',
+    idVia:activeTab==='upload'?'Uploaded with form':'Will send separately',
+    transport:document.getElementById('transport').value,
+    flightTrain:document.getElementById('tfNo').value.trim()||'—',
+    arrDate:document.getElementById('arrDate').value,
+    arrTime:document.getElementById('arrTime').value,
+    pickup:pickupVal==='yes'?'Yes':'No',
+    pickupPoint:pickupVal==='yes'?document.getElementById('pickupPoint').value:'—',
+    support:document.getElementById('support').value.trim()||'—'
+  };
+
+  try{
+    await fetch(url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    document.getElementById('formBody').classList.add('hidden');
+    document.getElementById('successState').classList.add('show');
+  }catch(e){
+    btn.disabled=false;btn.innerHTML='Confirm my details';
+    err.style.display='block';err.textContent='Something went wrong — please check your connection and try again.';
+  }
+}
+
+init();
+</script>
